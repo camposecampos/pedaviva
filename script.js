@@ -5,5 +5,15 @@ document.querySelectorAll('.checkout-link').forEach(link=>{
   const u=new URL(link.href);
   trackingKeys.forEach(k=>{const v=params.get(k);if(v)u.searchParams.set(k,v)});
   link.href=u.toString();
-  link.addEventListener('click',()=>{try{sessionStorage.setItem('pedaviva_checkout_click',new Date().toISOString())}catch(e){}});
+  link.addEventListener('click',()=>{
+    try{sessionStorage.setItem('pedaviva_checkout_click',new Date().toISOString())}catch(e){}
+    if(typeof fbq==='function'){
+      fbq('track','InitiateCheckout',{
+        value:37.90,
+        currency:'BRL',
+        content_name:'PEDAVIVA',
+        content_category:'Educação Infantil'
+      });
+    }
+  });
 });
